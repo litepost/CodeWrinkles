@@ -1,9 +1,10 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace DataAccess;
 
 public class SocialDbContext(DbContextOptions options) : DbContext(options)
 {
-    DbSet<Post> Posts { get; set; }
+    public DbSet<Post> Posts { get; set; }
 }
