@@ -14,7 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SocialDbContext>(options => options.UseSqlite("Data source=MinimalAPICourse.db"));
 builder.Services.AddScoped<IPostRepository, PostRepository>();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+// builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+}
 
 var app = builder.Build();
 
@@ -47,6 +51,20 @@ app.MapPost("/api/posts", async (IMediator mediator, Post post) =>
     var createdPost = await mediator.Send(createPost);
     // GetPostById references the route name above so they must match
     return Results.CreatedAtRoute("GetPostById", new { createdPost.Id }, createdPost);
+});
+
+app.MapPut("api/posts/{id}", async (IMediator mediator, Post post, int id) => 
+{
+    var updatePost = new UpdatePost { PostId = id, PostContent = post.Content };
+    var updatedPost = await mediator.Send(updatePost);
+    return Results.Ok(updatedPost);
+});
+
+app.MapDelete("api/posts/{id}", async (IMediator mediator, int id) => 
+{
+    var deletePost = new DeletePost { PostId = id };
+    var deletedPost = await mediator.Send(deletePost);
+    return Results.NoContent();
 });
 
 app.Run();
