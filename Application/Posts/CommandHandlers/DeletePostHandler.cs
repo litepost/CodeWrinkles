@@ -3,9 +3,13 @@ using MediatR;
 
 namespace Application;
 
-public class DeletePostHandler(IPostRepository postRepo) : IRequestHandler<DeletePost, Post>
+public class DeletePostHandler: IRequestHandler<DeletePost>
 {
-    private readonly IPostRepository _postRepo = postRepo;
+    private readonly IPostRepository _postRepo;
+
+    public DeletePostHandler(IPostRepository postRepo) {
+        _postRepo = postRepo;
+    }
 
     public async Task<Unit> Handle(DeletePost request, CancellationToken cancellationToken)
     {
@@ -13,8 +17,13 @@ public class DeletePostHandler(IPostRepository postRepo) : IRequestHandler<Delet
         return Unit.Value;
     }
 
-    Task<Post> IRequestHandler<DeletePost, Post>.Handle(DeletePost request, CancellationToken cancellationToken)
+    Task IRequestHandler<DeletePost>.Handle(DeletePost request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
+
+    // Task IRequestHandler<DeletePost>.Handle(DeletePost request, CancellationToken cancellationToken)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

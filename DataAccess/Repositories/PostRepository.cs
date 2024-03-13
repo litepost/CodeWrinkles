@@ -22,7 +22,7 @@ public class PostRepository(SocialDbContext context) : IPostRepository
 
     public async Task DeletePost(int postId)
     {
-        var post = _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+        var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
         if (post is null) return;
 
         _context.Remove(post);

@@ -1,9 +1,8 @@
-﻿using Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace Application;
 
-public class DeletePost : IRequest<Post>
+public class DeletePost : IRequest
 {
     public int PostId { get; set; }
 }
