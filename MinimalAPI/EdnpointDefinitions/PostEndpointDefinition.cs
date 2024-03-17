@@ -49,7 +49,7 @@ public class PostEndpointDefinition : IEndpointDefinition
 
     private async Task<IResult> DeletePost(IMediator mediator, int id) {
         var deletePost = new DeletePost { PostId = id };
-        var deletedPost = await mediator.Send(deletePost);
+        await mediator.Send(deletePost);
         return TypedResults.NoContent();
     } 
 }

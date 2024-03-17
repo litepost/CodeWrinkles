@@ -1,5 +1,6 @@
 ﻿using Application;
 using Domain;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
